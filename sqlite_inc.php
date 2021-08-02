@@ -23,11 +23,23 @@
     return $ip;
   }
   
-  //eine vollstaendige Tabelle zurueckliefern
-  function getTableAsArray($table) {
+  //ein SQL-Statement ausführen und die Tabelle zurückliefern
+  function getTableToSQL($sql) {
+    // how to prevent code injection?!
     global $db;
     $array = [];
-    $sql = "SELECT rowid,* FROM ".$table.";";
+    $result = $db->query($sql);
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+      array_push($array,$row);
+    }
+    return $array;    
+  }
+  
+  //eine vollstaendige Tabelle zurueckliefern
+  function getTableAsArray($table, $where="1==1") {
+    global $db;
+    $array = [];
+    $sql = "SELECT rowid,* FROM ".$table." WHERE ".$where.";";
     $result = $db->query($sql);
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
       array_push($array,$row);
@@ -99,9 +111,9 @@
   }
   
   //einen bestimmten Wert in einer Tabelle ändern
-  function updateTableRow($table, $rowid, $key, $value) {
+  function updateTableRow($table, $rowid, $key, $value, $nocheck=false) {
     global $db;
-    if (ctype_alnum($key) && ctype_alnum($value)) {
+    if ($nocheck || (ctype_alnum($key) && ctype_print($value))) {
       $stmt = $db->prepare('UPDATE '.$table.' SET '.$key.'=:value WHERE rowid=:id');
       //console_log("Anzahl Parameter in Statement: ".$stmt->paramCount());
       $stmt->bindValue(':id', $rowid, SQLITE3_INTEGER);
@@ -422,7 +434,7 @@
     // article
     checkTableExists("article","CREATE TABLE article (name TEXT, unit TEXT, permanent INT, byuserid INT, lastedited TEXT, created TEXT);");
     // SLcontainsArticle
-    checkTableExists("SLcontainsArticle","CREATE TABLE SLcontainsArticle (slID INT, articleID INT, amount TEXT, bought INT, byuserid INT, lastedited TEXT, created TEXT);");
+    checkTableExists("SLcontainsArticle","CREATE TABLE SLcontainsArticle (slID INT, articleID INT, amount TEXT,unit TEXT, bought INT, byuserid INT, lastedited TEXT, created TEXT);");
     
 
 

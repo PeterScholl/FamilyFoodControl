@@ -21,7 +21,9 @@ function holeArtikel() {
     //console.log(JSON.stringify(daten));
     let len = daten.length;
     for (let i=0; i<len; i++) {
-      $("#liste").append("<li>"+daten[i].name+"</li>");
+      //Für Testzwecke schon mal einkaufsliste befüllen
+      $("#sort tbody").append("<tr><td></td><td>"+daten[i].name+"</td><td></td><td></td><td></td></tr>");
+      //Vorschlagsliste befüllen
       $("#dl_articles").append("<option value=\""+daten[i].name+"\">");
     }
     fccdaten.artikel=daten;
@@ -45,4 +47,15 @@ function holeArtikel_orig() {
   xmlhttp.open("GET", "ajaxjsondata.php?article=1");
   xmlhttp.send();
   console.log("Ajax-Daten da ?");  
+}
+
+function showAddForm() {
+  document.getElementById('inputNewArticle').style.display='block';
+  document.getElementById('btnAdd').style.display='none';
+  document.getElementById('btnHideAdd').style.display='inline';  
+}
+function hideAddForm() {
+  document.getElementById('inputNewArticle').style.display='none';
+  document.getElementById('btnAdd').style.display='inline';
+  document.getElementById('btnHideAdd').style.display='none';  
 }

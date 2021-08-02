@@ -125,19 +125,31 @@
   ?>
   <div class="row">
     <div class="col-sm-4 mx-auto">
-      <h5>Einkaufsliste - Name</h5>
+      <h5 id="slname">Einkaufsliste - Name</h5>
         <p>
-          <ol id="liste"></ol>
+          <table id="sort" class="table table-striped">
+            <thead>
+              <tr><th>Nr.</th><th>Bezeichnung</th><th>Menge</th><th>Einheit</th><th>erl.</th></tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </p>
-        <div id="inputNewArtile" class="form-group">
-          <label for="article">Artikel</label>
+        <div id="inputNewArticle" class="form-group" style="display:none">
+          <label for="article" >Artikel</label>
           <input type="text" class="form-control" list="dl_articles" placeholder="Eier" id="article" name="article">
           <datalist id="dl_articles">
           </datalist>
+          <label for="menge" style="display:none">Menge</label>
+          <input type="text" class="form-control" placeholder="1" id="menge" name="menge" style="display:none">
+          <label for="Einheit" style="display:none">Einheit</label>
+          <input type="text" class="form-control" placeholder="St&uuml;ck" id="einheit" name="einheit" style="display:none">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="button" class="btn btn-primary" onclick="holeArtikel()">Daten</button>
         <button type="button" class="btn btn-primary" onclick="console.log(fccdaten.artikel);">Test</button>
+        <button type="button" id="btnAdd" class="btn btn-primary" onclick="showAddForm()">Add</button>
+        <button type="button" id="btnHideAdd" class="btn btn-primary" onclick="hideAddForm()" style="display:none">Hide Add</button>
       </form> 
       <hr class="d-sm-none">
     </div>

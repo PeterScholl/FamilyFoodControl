@@ -44,7 +44,14 @@
       debugTextOutput("Einkaufsliste wird gelesen: ".$_GET["shoplist"]);
       $num = (int)$_GET["shoplist"];
       $retObj = getSingleTableRow('shoppinglist',$num);
-      
+    } else if (isset($_GET["listcontent"])) { // hier soll eine Einkaufsliste geliefert werden
+      debugTextOutput("Inhalt der Einkaufsliste wird gelesen: ".$_GET["listcontent"]);
+      $num = (int)$_GET["listcontent"];
+      $retObj = getTableAsArray('SLcontainsArticle',"slID=".$num);
+      //$retObj = getTableAsArray('SLcontainsArticle',"slID=1");
+    } else if (isset($_GET["test"])) { // hier haben wir eine Testabfrage zum ausprobieren
+      debugTextOutput("Testabfrage ausführen!!");
+      $retObj = getTableToSQL("SELECT rowid,*,MAX(strftime('%s',created)) AS created_seconds FROM shoppinglist;");
     }
   }
 
