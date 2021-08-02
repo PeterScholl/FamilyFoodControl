@@ -43,12 +43,19 @@
     } else if (isset($_GET["shoplist"])) { // hier soll eine Einkaufsliste geliefert werden
       debugTextOutput("Einkaufsliste wird gelesen: ".$_GET["shoplist"]);
       $num = (int)$_GET["shoplist"];
-      $retObj = getSingleTableRow('shoppinglist',$num);
-    } else if (isset($_GET["listcontent"])) { // hier soll eine Einkaufsliste geliefert werden
-      debugTextOutput("Inhalt der Einkaufsliste wird gelesen: ".$_GET["listcontent"]);
-      $num = (int)$_GET["listcontent"];
-      $retObj = getTableAsArray('SLcontainsArticle',"slID=".$num);
-      //$retObj = getTableAsArray('SLcontainsArticle',"slID=1");
+      if ($num!=-1) { //ausgewaehlte Liste holen
+        debugTextOutput("Liste mit Nummer ".$num." wird gelesen");
+        $retObj = getSingleTableRow('shoppinglist',$num);
+      } 
+      if ($retObj==false || $num==-1) { //neueste Liste holen
+        $retObj = getTableToSQL("SELECT rowid,*,MAX(strftime('%s',created)) AS created_seconds FROM shoppinglist;");
+      }  
+    } else if (isset($_GET["shoplistcontent"])) { // hier soll eine Einkaufsliste geliefert werden
+      debugTextOutput("Inhalt der Einkaufsliste wird gelesen: ".$_GET["shoplistcontent"]);
+      $num = (int)$_GET["shoplistcontent"];
+      $retObj = getTableToSQL("SELECT C.rowid AS id,A.name as name,C.amount as menge,".
+      "C.unit as einheit,A.rowid AS articleID, C.bought as bought FROM SLcontainsArticle AS C ".
+      "JOIN article AS A ON C.articleID=A.rowID where C.slID=".$num.";");
     } else if (isset($_GET["test"])) { // hier haben wir eine Testabfrage zum ausprobieren
       debugTextOutput("Testabfrage ausführen!!");
       $retObj = getTableToSQL("SELECT rowid,*,MAX(strftime('%s',created)) AS created_seconds FROM shoppinglist;");

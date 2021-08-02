@@ -135,6 +135,7 @@
             </tbody>
           </table>
         </p>
+        <hr>
         <div id="inputNewArticle" class="form-group" style="display:none">
           <label for="article" >Artikel</label>
           <input type="text" class="form-control" list="dl_articles" placeholder="Eier" id="article" name="article">
@@ -146,7 +147,7 @@
           <input type="text" class="form-control" placeholder="St&uuml;ck" id="einheit" name="einheit" style="display:none">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-primary" onclick="holeArtikel()">Daten</button>
+        <button type="button" class="btn btn-primary" onclick="holeDaten()">Daten</button>
         <button type="button" class="btn btn-primary" onclick="console.log(fccdaten.artikel);">Test</button>
         <button type="button" id="btnAdd" class="btn btn-primary" onclick="showAddForm()">Add</button>
         <button type="button" id="btnHideAdd" class="btn btn-primary" onclick="hideAddForm()" style="display:none">Hide Add</button>
